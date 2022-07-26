@@ -1,0 +1,26 @@
+#!/bin/bash
+
+ln -sfT /dev/stdout /logs/graphd-stdout.log
+ln -sfT /dev/stderr /logs/graphd-stderr.log
+
+Array=()
+if [ -n "${DEPEND_SERVICE-}" ]; then  
+   metad_addr=$(nslookup "${DEPEND_SERVICE%:*}" | grep Address | sed '1d' | awk '{print $2}')
+   for item in $metad_addr; do
+      Array+=("$item":9559)
+   done
+fi
+MetaServerAddrs=$(echo "${Array[@]}" | tr ' ' ',')
+
+/usr/local/nebula/bin/nebula-graphd \
+--flagfile=/usr/local/nebula/etc/nebula-graphd.conf \
+--daemonize=false \
+--containerized=true \
+--meta_server_addrs="$MetaServerAddrs" \
+--port=9669 \
+--local_ip="${HOSTNAME}" \
+--ws_ip="${HOSTNAME}" \
+--ws_http_port=19669 \
+--log_dir=/logs \
+--v=0 \
+--minloglevel=0
