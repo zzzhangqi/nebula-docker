@@ -1,6 +1,7 @@
 #!/bin/bash
 
-ln -sfT /dev/stdout /logs/*
+ln -sfT /dev/stdout /logs/metad-stdout.log
+ln -sfT /dev/stderr /logs/metad-stderr.log
 
 /usr/local/nebula/bin/nebula-metad \
 --flagfile=/usr/local/nebula/etc/nebula-metad.conf \
