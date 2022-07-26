@@ -1,0 +1,14 @@
+#!/bin/bash
+
+/usr/local/nebula/bin/nebula-metad \
+--flagfile=/usr/local/nebula/etc/nebula-metad.conf \
+--daemonize=false \
+--containerized=true \
+--meta_server_addrs="${SERVICE_ADDRS}" \
+--local_ip="${HOSTNAME}" \
+--ws_ip="${HOSTNAME}" \
+--port=9559 \
+--ws_http_port=19559 \
+--data_path=/data/meta \
+--log_dir=/logs \
+--v=0 --minloglevel=0
