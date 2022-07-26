@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ln -sfT /dev/stdout /logs/*
+
 /usr/local/nebula/bin/nebula-metad \
 --flagfile=/usr/local/nebula/etc/nebula-metad.conf \
 --daemonize=false \
@@ -11,6 +13,4 @@
 --ws_http_port=19559 \
 --data_path=/data/meta \
 --log_dir=/logs \
---v=0 --minloglevel=0 &
-
-tail -f /logs/*
+--v=0 --minloglevel=0
