@@ -1,5 +1,6 @@
 #!/bin/bash
 
+tail -f /logs/* && \
 /usr/local/nebula/bin/nebula-metad \
 --flagfile=/usr/local/nebula/etc/nebula-metad.conf \
 --daemonize=false \
