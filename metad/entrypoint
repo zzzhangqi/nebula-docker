@@ -8,8 +8,8 @@ ln -sfT /dev/stderr /logs/metad-stderr.log
 --daemonize=false \
 --containerized=true \
 --meta_server_addrs="${SERVICE_ADDRS}" \
---local_ip="${POD_IP}" \
---ws_ip="${POD_IP}" \
+--local_ip="${HOSTNAME}" \
+--ws_ip="${HOSTNAME}" \
 --port=9559 \
 --ws_http_port=19559 \
 --data_path=/data/meta \
