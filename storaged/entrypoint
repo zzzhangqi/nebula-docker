@@ -3,17 +3,14 @@
 ln -sfT /dev/stdout /usr/local/nebula/logs/storaged-stdout.log
 ln -sfT /dev/stderr /usr/local/nebula/logs/storaged-stderr.log
 
-
 if [ -n "${DEPEND_SERVICE}" ]; then  
    metad_fqdn=$(nslookup "${DEPEND_SERVICE%:*}" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
    metad_server_name=${metad_fqdn%%.*}
 fi
 
-local_ip=$(hostname).$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
-
 /usr/local/nebula/bin/nebula-storaged \
 --flagfile=/usr/local/nebula/etc/nebula-storaged.conf \
 --meta_server_addrs="$metad_server_name"-0."$metad_fqdn":9559,"$metad_server_name"-1."$metad_fqdn":9559,"$metad_server_name"-2."$metad_fqdn":9559 \
---local_ip="$local_ip" \
---ws_ip="$local_ip" \
+--local_ip="$(hostname)"."$SERVICE_NAME"."$NAMESPACE".svc.cluster.local \
+--ws_ip="$(hostname)"."$SERVICE_NAME"."$NAMESPACE".svc.cluster.local \
 --daemonize=false
