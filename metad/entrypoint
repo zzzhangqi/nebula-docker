@@ -3,8 +3,10 @@
 ln -sfT /dev/stdout /usr/local/nebula/logs/metad-stdout.log
 ln -sfT /dev/stderr /usr/local/nebula/logs/metad-stderr.log
 
-FQDN=$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
-LOCAL_IP=$(hostname).$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
+if [ -n "$SERVICE_NAME" ];then
+  FQDN=$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
+  LOCAL_IP=$(hostname).$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
+fi
 
 /usr/local/nebula/bin/nebula-metad \
 --flagfile=/usr/local/nebula/etc/nebula-metad.conf \
