@@ -3,9 +3,11 @@
 ln -sfT /dev/stdout /usr/local/nebula/logs/metad-stdout.log
 ln -sfT /dev/stderr /usr/local/nebula/logs/metad-stderr.log
 
+LocalIP=$(hostname -i)
+
 /usr/local/nebula/bin/nebula-metad \
 --flagfile=/usr/local/nebula/etc/nebula-metad.conf \
 --meta_server_addrs="$SERVICE_NAME"-0."$SERVICE_NAME":9559,"$SERVICE_NAME"-1."$SERVICE_NAME":9559,"$SERVICE_NAME"-2."$SERVICE_NAME":9559 \
---local_ip="$(hostname -i)" \
---ws_ip="$(hostname -i)" \
+--local_ip="$LocalIP" \
+--ws_ip="$LocalIP" \
 --daemonize=false
