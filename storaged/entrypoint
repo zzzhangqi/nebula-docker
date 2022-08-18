@@ -11,17 +11,11 @@ if [ -n "${DEPEND_SERVICE-}" ]; then
    done
 fi
 MetaServerAddrs=$(echo "${Array[@]}" | tr ' ' ',')
+LocalIP=$(hostname -i)
 
 /usr/local/nebula/bin/nebula-storaged \
 --flagfile=/usr/local/nebula/etc/nebula-storaged.conf \
---daemonize=false \
---containerized=true \
 --meta_server_addrs="$MetaServerAddrs" \
---local_ip="${HOSTNAME}" \
---ws_ip="${HOSTNAME}" \
---port=9779 \
---ws_http_port=19779 \
---data_path=/data/storage \
---log_dir=/logs \
---v=0 \
---minloglevel=0
+--local_ip="$LocalIP" \
+--ws_ip="$LocalIP" \
+--daemonize=false
