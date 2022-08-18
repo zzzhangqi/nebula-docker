@@ -7,4 +7,4 @@ RUN yum -y install bind-utils net-tools
 
 EXPOSE 9559 19559 19560
 
-CMD [ "/bin/bash", "/entrypoint" ]
+ENTRYPOINT [ "/bin/bash", "/entrypoint" ]
