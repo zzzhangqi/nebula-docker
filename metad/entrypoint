@@ -3,12 +3,12 @@
 ln -sfT /dev/stdout /usr/local/nebula/logs/metad-stdout.log
 ln -sfT /dev/stderr /usr/local/nebula/logs/metad-stderr.log
 
-metad_fqdn=$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
-local_ip=$(hostname).$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
+FQDN=$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
+LOCAL_IP=$(hostname).$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
 
 /usr/local/nebula/bin/nebula-metad \
 --flagfile=/usr/local/nebula/etc/nebula-metad.conf \
---meta_server_addrs="$SERVICE_NAME"-0."$metad_fqdn":9559,"$SERVICE_NAME"-1."$metad_fqdn":9559,"$SERVICE_NAME"-2."$metad_fqdn":9559 \
---local_ip="$local_ip" \
---ws_ip="$local_ip" \
+--meta_server_addrs="$SERVICE_NAME"-0."$FQDN":9559,"$SERVICE_NAME"-1."$FQDN":9559,"$SERVICE_NAME"-2."$FQDN":9559 \
+--local_ip="$LOCAL_IP" \
+--ws_ip="$LOCAL_IP" \
 --daemonize=false
