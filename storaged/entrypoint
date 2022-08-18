@@ -11,11 +11,10 @@ if [ -n "${DEPEND_SERVICE-}" ]; then
    done
 fi
 MetaServerAddrs=$(echo "${Array[@]}" | tr ' ' ',')
-LocalIP=$(hostname -i)
 
 /usr/local/nebula/bin/nebula-storaged \
 --flagfile=/usr/local/nebula/etc/nebula-storaged.conf \
 --meta_server_addrs="$MetaServerAddrs" \
---local_ip="$LocalIP" \
---ws_ip="$LocalIP" \
+--local_ip="$(hostname)"."$SERVICE_NAME" \
+--ws_ip="$(hostname)"."$SERVICE_NAME" \
 --daemonize=false
