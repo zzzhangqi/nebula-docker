@@ -3,12 +3,9 @@
 ln -sfT /dev/stdout /usr/local/nebula/logs/metad-stdout.log
 ln -sfT /dev/stderr /usr/local/nebula/logs/metad-stderr.log
 
-meta_addrs="$SERVICE_NAME"-0.$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p):9559,"$SERVICE_NAME"-1.$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p):9559,"$SERVICE_NAME"-2.$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p):9559
-local_ip=$(hostname).$(nslookup "$SERVICE_NAME" | grep Name | sed '1d' | awk '{print $2}' | sed -n 1p)
-
 /usr/local/nebula/bin/nebula-metad \
 --flagfile=/usr/local/nebula/etc/nebula-metad.conf \
---meta_server_addrs="$meta_addrs" \
---local_ip="$local_ip" \
---ws_ip="$local_ip" \
+--meta_server_addrs="$SERVICE_NAME"-0."$SERVICE_NAME"."$NAMESPACE".svc.cluster.local:9559,"$SERVICE_NAME"-1."$SERVICE_NAME"."$NAMESPACE".svc.cluster.local:9559,"$SERVICE_NAME"-2."$SERVICE_NAME"."$NAMESPACE".svc.cluster.local:9559 \
+--local_ip="$(hostname)"."$SERVICE_NAME"."$NAMESPACE".svc.cluster.local \
+--ws_ip="$(hostname)"."$SERVICE_NAME"."$NAMESPACE".svc.cluster.local \
 --daemonize=false
